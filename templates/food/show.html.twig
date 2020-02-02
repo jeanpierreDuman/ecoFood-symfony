@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FoodController!{% endblock %}
+
+{% block body %}
+    <div>
+        <p>
+            {{ food.name }}
+        </p>
+        <p>
+            {{ food.description }}
+        </p>
+
+        {% if food.user != app.user and food.user not in app.user.subscriptions %}
+            <p>
+                <span>
+                    Je m'abonne à <a href="{{ path('subscription_to', {'id': food.user.id}) }}">{{ food.user.name }}</a>
+                </span>
+            </p>
+        {% endif %}
+    </div>
+{% endblock %}

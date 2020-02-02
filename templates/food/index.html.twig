@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FoodController!{% endblock %}
+
+{% block body %}
+    <div>
+        {% for food in foods %}
+            <p>
+                {{ food.name }} - {{ food.description }}
+                - {{ food.views|length }}
+                - <a href="{{ path('food_show', {'id': food.id}) }}">voir</a>
+                - <a href="{{ path('food_delete', {'id': food.id}) }}">supprimer</a>
+            </p>
+        {% endfor %}
+    </div>
+{% endblock %}

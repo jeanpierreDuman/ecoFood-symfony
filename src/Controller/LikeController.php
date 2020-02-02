@@ -5,13 +5,15 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomeController extends AbstractController
+class LikeController extends AbstractController
 {
     /**
-     * @Route("/", name="home")
+     * @Route("/like", name="like")
      */
     public function index()
     {
-        return $this->redirectToRoute('food');
+        return $this->render('like/index.html.twig', [
+            'controller_name' => 'LikeController',
+        ]);
     }
 }

@@ -4,36 +4,43 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     </head>
     <body>
         <div>
-            {% if app.user == null %}
-                <p>
-                    <a href="{{ path('app_login') }}">Se connecter</a>
-                </p>
-                <p>
-                    <a href="{{ path('app_register') }}">Se créer un compte</a>
-                </p>
-            {% else %}
-                <p>
-                    <a href="{{ path('app_logout') }}">Se déconnecter</a>
-                    - <span>connecter avec {{ app.user.name }}</span>
-                </p>
-                <p>
-                    <a href="{{ path('profile') }}">Gérer mon profil</a>
-                </p>
-                <p>
-                    <a href="{{ path('subscriptions') }}">Mes abonnements</a>
-                </p>
-            {% endif %}
-            <p>
-                <a href="{{ path('food') }}">Retour à la liste des recettes</a>
-            </p>
-            <p>
-                <a href="{{ path('food_add') }}">Ajouter une recette</a>
-            </p>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                <a class="navbar-brand" href="#">EcoFood</a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        {% if app.user is not null %}
+                            <li class="nav-item active">
+                                <a class="nav-link active" href="{{ path('food') }}">Les recettes</a>
+                            </li>
+                            <li class="nav-item active">
+                                <a class="nav-link active" href="{{ path('subscriptions') }}">Mes abonnements</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                    <span class="navbar-text">
+                        {% if app.user is not null %}
+                            <span style="display: inline-block;">{{ app.user.name }}</span>
+                            <a style="display: inline-block;" class="nav-link active" href="{{ path('profile') }}">Gérer mon profil</a>
+                            <a style="display: inline-block;" class="nav-link active" href="{{ path('app_logout') }}">Se déconnecter</a>
+                        {% else %}
+                            <a style="display: inline-block;" class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
+                            <a style="display: inline-block;" class="nav-link" href="{{ path('app_register') }}">Créer un compte</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </nav>
         </div>
-        {% block body %}{% endblock %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mt-4">
+                    {% block body %}{% endblock %}
+                </div>
+            </div>
+        </div>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Food;
+use App\Entity\User;
 use App\Form\FoodType;
 use App\Repository\FoodRepository;
 use App\Services\FileUploader;
@@ -79,6 +80,19 @@ class FoodController extends AbstractController
 
         return [
             'food' => $food
+        ];
+    }
+
+    /**
+     * @Route("/food/user/{id}", name="food_user_list")
+     */
+    public function showUserFood(User $user, FoodRepository $foodRepository)
+    {
+        $foods = $foodRepository->findByUser($user);
+
+        return [
+            'foods' => $foods,
+            'user' => $user
         ];
     }
 

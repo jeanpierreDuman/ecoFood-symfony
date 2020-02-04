@@ -54,7 +54,8 @@ class User implements UserInterface
     private $subscriptions;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User")
+     * @ORM\JoinTable(name="likes")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Food", inversedBy="users")
      */
     private $likes;
 
@@ -213,14 +214,14 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|self[]
+     * @return Collection|Food[]
      */
     public function getLikes(): Collection
     {
         return $this->likes;
     }
 
-    public function addLike(self $like): self
+    public function addLike(Food $like): self
     {
         if (!$this->likes->contains($like)) {
             $this->likes[] = $like;
@@ -229,7 +230,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeLike(self $like): self
+    public function removeLike(Food $like): self
     {
         if ($this->likes->contains($like)) {
             $this->likes->removeElement($like);

@@ -3,15 +3,18 @@
 {% block title %}Hello FoodController!{% endblock %}
 
 {% block body %}
-    <p>
-        <a class="btn btn-primary" href="{{ path('food_add') }}">Ajouter une recette</a>
-    </p>
+    <div class="mb-3">
+        <h3 style="display: inline-block;">Les recettes</h3>
+        <a style="display: inline-block; float: right;" class="btn btn-primary" href="{{ path('food_add') }}">Ajouter une recette</a>
+    </div>
 
     <table class="table table-bordered">
         <thead>
         <tr>
             <th scope="col">Nom</th>
             <th scope="col">Vue</th>
+            <th scope="col">J'aime</th>
+            <th scope="col">Créateur</th>
             <th scope="col">Actions</th>
         </tr>
         </thead>
@@ -20,6 +23,8 @@
                 <tr>
                     <td>{{ food.name }}</td>
                     <td>{{ food.views|length }}</td>
+                    <td>{{ food.likes|length }}</td>
+                    <td>{{ food.user.name }}</td>
                     <td colspan="2">
                         <p>
                             <a class="btn btn-info" href="{{ path('food_show', {'id': food.id}) }}">voir</a>

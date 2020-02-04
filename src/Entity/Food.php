@@ -44,9 +44,15 @@ class Food
      */
     private $user;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="likes")
+     */
+    private $likes;
+
     public function __construct()
     {
         $this->views = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -124,6 +130,34 @@ class Food
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(User $user): self
+    {
+        if (!$this->likes->contains($user)) {
+            $this->likes[] = $user;
+            $user->addLike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(User $user): self
+    {
+        if ($this->likes->contains($user)) {
+            $this->likes->removeElement($user);
+            $user->removeLike($this);
+        }
 
         return $this;
     }

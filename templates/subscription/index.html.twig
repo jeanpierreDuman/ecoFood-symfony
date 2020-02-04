@@ -3,9 +3,37 @@
 {% block title %}Hello FoodController!{% endblock %}
 
 {% block body %}
-    <div>
-        <p>
-            Liste des abonnements
-        </p>
+
+    <div class="mb-4">
+        <h3>Mes abonnements</h3>
     </div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th scope="col">Nom</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for subscription in subscriptions %}
+            <tr>
+                <td>
+                    <a href="{{ path('food_user_list', {'id': subscription.id}) }}">{{ subscription.name }}</a>
+                </td>
+                <td colspan="2">
+                    <p>
+                        <a class="btn btn-info" href="">voir</a>
+                        <a class="btn btn-danger" href="{{ path('unsubscription', {'id': subscription.id}) }}">supprimer</a>
+                    </p>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">
+                    Aucun abonnements
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

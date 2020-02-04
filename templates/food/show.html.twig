@@ -18,5 +18,13 @@
                 </span>
             </p>
         {% endif %}
+
+        {% if food.user != app.user and food not in app.user.likes %}
+            <p>
+                <span>
+                    <a href="{{ path('like_to', {'id': food.id}) }}">J'aime</a>
+                </span>
+            </p>
+        {% endif %}
     </div>
 {% endblock %}

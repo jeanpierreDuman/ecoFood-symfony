@@ -30,10 +30,29 @@ class SubscriptionController extends AbstractController
     }
 
     /**
+     * @Route("/unsubscription/{id}", name="unsubscription")
+     */
+    public function unsubscription(User $user)
+    {
+        $currentUser = $this->getUser();
+        $currentUser->removeSubscription($user);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($currentUser);
+        $em->flush();
+
+        return $this->redirectToRoute('subscriptions');
+    }
+
+    /**
      * @Route("/subscriptions", name="subscriptions")
      */
     public function index()
     {
-        return [];
+        $subscriptions = $this->getUser()->getSubscriptions();
+
+        return [
+            'subscriptions' => $subscriptions
+        ];
     }
 }

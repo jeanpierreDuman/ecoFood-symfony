@@ -34,7 +34,7 @@ class Food
     private $description;
 
     /**
-     * @ORM\JoinTable(name="food_views")
+     * @ORM\JoinTable(name="views")
      * @ORM\ManyToMany(targetEntity="App\Entity\User")
      */
     private $views;

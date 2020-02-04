@@ -27,7 +27,23 @@ class LikeController extends AbstractController
         $em->persist($user);
         $em->flush();
 
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('likes');
+    }
+
+    /**
+     * @Route("/dislike/{id}", name="dislike")
+     */
+    public function dislike(Food $food)
+    {
+        $user = $this->getUser();
+
+        $this->getUser()->removeLike($food);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirectToRoute('likes');
     }
 
     /**

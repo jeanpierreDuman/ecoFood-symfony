@@ -194,7 +194,8 @@ class Food
         $price = 0;
 
         foreach ($this->foodProducts as $entity) {
-            $price += $entity->getProduct()->getPrice();
+            $result = $entity->getProduct()->getPrice() * $entity->getQuantity();
+            $price += $result;
         }
 
         return $price;

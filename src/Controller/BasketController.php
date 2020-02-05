@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\Food;
 use App\Entity\FoodProduct;
 use App\Entity\Product;
+use App\Repository\FoodProductRepository;
 use App\Repository\ProductRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -44,11 +46,23 @@ class BasketController extends AbstractController
      * @param Product $product
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function addInBasket(Food $food, Product $product)
+    public function addInBasket(Food $food, Product $product, Request $request, FoodProductRepository $foodProductRepository)
     {
-        $foodProduct = new FoodProduct();
-        $foodProduct->setFood($food);
-        $foodProduct->setProduct($product);
+        $foodProduct = $foodProductRepository->findOneBy([
+            'food' => $food,
+            'product' => $product
+        ]);
+
+        if($foodProduct !== null) {
+            $oldQuantity = $foodProduct->getQuantity();
+            $foodProduct->setQuantity($oldQuantity + $request->request->get('quantity'));
+        } else {
+            $foodProduct = new FoodProduct();
+            $foodProduct->setFood($food);
+            $foodProduct->setProduct($product);
+            $foodProduct->setQuantity($request->request->get('quantity'));
+        }
+
         $em = $this->getDoctrine()->getManager();
         $em->persist($foodProduct);
 

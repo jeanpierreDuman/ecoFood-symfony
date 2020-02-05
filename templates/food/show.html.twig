@@ -17,7 +17,7 @@
             <div>
                 {% for p in products %}
                     <p>
-                        {{ p.product.name }} - {{ p.product.price }}
+                        {{ p.product.name }} - {{ p.product.price }} x {{ p.quantity }}
                     </p>
                 {% else %}
                     Aucun produit
@@ -30,7 +30,11 @@
         {% else %}
             <p>
                 Prix de la recette : {{ food.price }} € <br>
-                Pour un total de {{ products|length }} produit(s)
+                {% for p in products %}
+                <p>
+                    {{ loop.index }} ) {{ p.product.name }} - {{ p.product.price }} x {{ p.quantity }}
+                </p>
+                {% endfor %}
             </p>
 
         {% endif %}

@@ -8,9 +8,16 @@
     </h3>
     <div>
         {% for p in products %}
-            <p>
-                {{ p.name }} - {{ p.price }} - <a href="{{ path('basket_choose_add', {'id': food.id, 'product': p.id}) }}">Choisir</a>
-            </p>
+            <div>
+                <form method="POST" action="{{ path('basket_choose_add', {'id': food.id, 'product': p.id}) }}">
+                    <p>
+                        {{ p.name }} - {{ p.price }}
+                        <input type="number" min="1" value="1" required name="quantity" max="100">
+                        <input type="submit" value="Choisir">
+                    </p>
+                </form>
+            </div>
+
         {% endfor %}
     </div>
 {% endblock %}

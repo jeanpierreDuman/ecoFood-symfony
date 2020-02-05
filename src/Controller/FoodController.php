@@ -50,6 +50,7 @@ class FoodController extends AbstractController
             $picture = $request->files->get('food')['picture'];
             $food = $fileUploader->upload($food, $picture);
             $food->setUser($this->getUser());
+            $food->setStatus(Food::STATUS_BASKET);
             $em = $this->getDoctrine()->getManager();
             $em->persist($food);
             $em->flush();
@@ -79,7 +80,8 @@ class FoodController extends AbstractController
         }
 
         return [
-            'food' => $food
+            'food' => $food,
+            'products' => $food->getFoodProducts()
         ];
     }
 

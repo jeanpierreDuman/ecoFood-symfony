@@ -14,6 +14,8 @@
             <th scope="col">Nom</th>
             <th scope="col">Vue</th>
             <th scope="col">J'aime</th>
+            <th scope="col">Statut</th>
+            <th scope="col">Prix</th>
             <th scope="col">Créateur</th>
             <th scope="col">Actions</th>
         </tr>
@@ -24,6 +26,8 @@
                     <td>{{ food.name }}</td>
                     <td>{{ food.views|length }}</td>
                     <td>{{ food.likes|length }}</td>
+                    <td>{{ food.status }}</td>
+                    <td>{{ food.price }} €</td>
                     <td>{{ food.user.name }}</td>
                     <td colspan="2">
                         <p>

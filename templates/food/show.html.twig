@@ -11,6 +11,30 @@
             {{ food.description }}
         </p>
 
+        {% if food.status == 'basket' %}
+            <a href="{{ path('basket_choose', {'id': food.id}) }}">Choisir les produits pour créer la recette</a>
+            <br><br><p>Les produits</p>
+            <div>
+                {% for p in products %}
+                    <p>
+                        {{ p.product.name }} - {{ p.product.price }}
+                    </p>
+                {% else %}
+                    Aucun produit
+                {% endfor %}
+                
+                {% if products|length > 0 %}
+                    <a href="{{ path('basket_valid', {'id': food.id}) }}">Valider ma recette</a>
+                {% endif %}
+            </div>
+        {% else %}
+            <p>
+                Prix de la recette : {{ food.price }} € <br>
+                Pour un total de {{ products|length }} produit(s)
+            </p>
+
+        {% endif %}
+
         {% if food.user != app.user and food.user not in app.user.subscriptions %}
             <p>
                 <span>

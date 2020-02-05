@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BasketController!{% endblock %}
+
+{% block body %}
+    <h3>
+        Food : {{ food.name }}
+    </h3>
+    <div>
+        {% for p in products %}
+            <p>
+                {{ p.name }} - {{ p.price }} - <a href="{{ path('basket_choose_add', {'id': food.id, 'product': p.id}) }}">Choisir</a>
+            </p>
+        {% endfor %}
+    </div>
+{% endblock %}

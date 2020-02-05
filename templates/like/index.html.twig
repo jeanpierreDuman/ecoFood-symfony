@@ -13,18 +13,19 @@
             <th scope="col">Vue</th>
             <th scope="col">J'aime</th>
             <th scope="col">Créateur</th>
-            <th scope="2">Actions</th>
+            <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
         {% for food in foods %}
             <tr>
-                <td>{{ food.name }}</td>
+                <td>
+                    <a href="{{ path('food_show', {'id': food.id}) }}">{{ food.name }}</a>
+                </td>
                 <td>{{ food.views|length }}</td>
                 <td>{{ food.likes|length }}</td>
                 <td>{{ food.user.name }}</td>
                 <td>
-                    <a class="btn btn-info" href="{{ path('food_show', {'id': food.id}) }}">voir</a>
                     <a class="btn btn-danger" href="{{ path('dislike', {'id': food.id}) }}">ne plus aimer</a>
                 </td>
             </tr>

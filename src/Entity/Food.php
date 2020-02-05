@@ -11,6 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Food
 {
+    const STATUS_BASKET = 'basket';
+    const STATUS_PUBLISH = 'publish';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -49,10 +52,22 @@ class Food
      */
     private $likes;
 
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\FoodProduct", mappedBy="food")
+     */
+    private $foodProducts;
+
     public function __construct()
     {
         $this->views = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->foodProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -157,6 +172,60 @@ class Food
         if ($this->likes->contains($user)) {
             $this->likes->removeElement($user);
             $user->removeLike($this);
+        }
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getPrice()
+    {
+        $price = 0;
+
+        foreach ($this->foodProducts as $entity) {
+            $price += $entity->getProduct()->getPrice();
+        }
+
+        return $price;
+    }
+
+    /**
+     * @return Collection|FoodProduct[]
+     */
+    public function getFoodProducts(): Collection
+    {
+        return $this->foodProducts;
+    }
+
+    public function addFoodProduct(FoodProduct $foodProduct): self
+    {
+        if (!$this->foodProducts->contains($foodProduct)) {
+            $this->foodProducts[] = $foodProduct;
+            $foodProduct->setFood($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFoodProduct(FoodProduct $foodProduct): self
+    {
+        if ($this->foodProducts->contains($foodProduct)) {
+            $this->foodProducts->removeElement($foodProduct);
+            // set the owning side to null (unless already changed)
+            if ($foodProduct->getFood() === $this) {
+                $foodProduct->setFood(null);
+            }
         }
 
         return $this;
